@@ -1,0 +1,37 @@
+x <- 1:20
+y <- x^2 - 6*x + 20 + 2*rnorm(20)
+y1 <- x+150 + rnorm(20)
+
+plot(y~x, type="o")
+
+abline(v=c(5,10,15), col="red")
+abline(h=13, col="blue", lty=2) 
+abline(a=0, b=10, col="green") # y = 0 + x 기울기가 있는 직선
+ 
+lines(x,y1, type="o", pch=15, col='red')
+
+points(3,200, pch=17, cex=5, col="gold")
+
+text(10,200, labels="STI", cex=5)
+
+legend("bottomright", fill=c("tomato3", "cornflowerblue"),
+       legend=c("Daejeon", "Daegu"), cex=1)
+
+rect(1,250,4,300, col="blue")
+arrows(5,250,10,300)
+
+x<- seq(-3,3,0.1)
+y <- dnorm(x)
+
+plot(x,y, type="l")
+polygon(c(x[1:10],-2.1), c(y[1:10],0), col="yellow")
+
+library(raster)
+kor<- getData("GADM", country="JPN", level=1)
+alt<- getData("alt", country="JPN", mask=T)
+
+plot(alt)
+plot(kor, add=T)
+points(120,35.6, pch=16, col="green", cex=4)
+text(120,35.6, labels="Dokdo", cex=4)
+abline(h=38, lty=2, lwd=2)

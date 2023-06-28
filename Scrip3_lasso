@@ -1,0 +1,32 @@
+#데이터 불러오기
+raw_data <- state.x77
+head(raw_data)
+
+set.seed(100) #랜덤난수 초기값 고정
+trainIndex <- sample(1:nrow(raw_data),replace=F, size=40)
+train=raw_data[trainIndex, ] #학습용 데이터 80%
+test=raw_data[-trainIndex, ] #테스트용 데이터 20%
+
+#학습 데이터 예측 및 종속변수 나누기
+train.x <- scale(train[,-4]) #예측변수 표준화
+train.y <- train[,4]
+
+#테스트 데이터 예측 및 종속변수 나누기
+test.x <- scale(test[,-4]) #예측변수 표준화
+test.y <- test[,4]
+
+library(glmnet)
+set.seed(100) #초기값 고정
+cv.lasso <- cv.glmnet(train.x, train.y, alpha=1) #교차검정 실시
+plot(cv.lasso)
+
+lasso_model <- glmnet(train.x, train.y, alpha=1) #학습시키기
+plot(lasso_model, xvar="lambda") #람다에 따른 회귀계수 확인하기
+best_lambda <- cv.lasso$lambda.min
+lasso_coef <- coef(lasso_model, s=best_lambda)
+lasso_coef
+
+pred_y <- predict(cv.lasso, newx=test.x, s="lambda.min")
+plot(test.y)  
+lines(pred_y, col="red")
+

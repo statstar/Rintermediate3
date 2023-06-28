@@ -1,0 +1,50 @@
+# histogram & density plot
+hist(mtcars$mpg, breaks=c(10,20,25,30,40))
+cut(mtcars$mpg, c(10,20,25,30,40)) %>% table %>% barplot
+density(mtcars$mpg) %>% plot
+
+# dotchart
+dotchart(mtcars$mpg, labels=rownames(mtcars),
+         groups = factor(mtcars$cyl))
+dotchart(mpg$cty, groups=factor(mpg$class))
+
+# barplot
+mtcars$cyl %>% table %>% barplot
+mtcars %>%  count(cyl) -> tab1
+barplot(tab1$n, names.arg = tab1$cyl, ylim=c(0,16)) -> b1
+b1
+text(b1, tab1$n, pos=3, cex=1)
+barplot(c(4,6,1), names.arg = c("서울","대전","대구"))
+
+## barplot
+table(mtcars$cyl, mtcars$gear) %>% 
+  barplot(beside=T, legend=rownames(.))
+
+table(mtcars$cyl, mtcars$gear) -> tab2
+barplot(tab2, beside=T, legend=rownames(tab2), 
+        ylim=c(0,14)) -> b2
+text(b2, tab2, labels=tab2, pos=3)
+
+# Line plot
+plot(LakeHuron %>% as.numeric(), type="l")
+plot(LakeHuron %>% as.numeric(), type="b")
+plot(LakeHuron %>% as.numeric(), type="c")
+plot(LakeHuron %>% as.numeric(), type="o")
+plot(LakeHuron %>% as.numeric(), type="h")
+plot(LakeHuron %>% as.numeric(), type="s")
+
+mtcars$cyl %>% table %>% barplot
+
+# boxplot
+boxplot(mtcars$mpg)
+boxplot(mpg~cyl, mtcars)
+library(vioplot)
+vioplot(mpg~cyl, mtcars, col="gold")
+
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarise(n=n(), mean=mean(mpg), sd=sd(mpg)) %>% 
+  write_clip
+
+library(clipr)
+mtcars %>% write_clip
